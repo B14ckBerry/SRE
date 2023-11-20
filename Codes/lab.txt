@@ -1,0 +1,36 @@
+18.141.160.148 ip-172-31-22-254.ap-southeast-1.compute.internal
+18.143.67.190 ip-172-31-22-195.ap-southeast-1.compute.internal
+52.221.188.81 ip-172-31-26-124.ap-southeast-1.compute.internal
+52.221.188.81 ip-172-31-25-119.ap-southeast-1.compute.internal
+
+ansible-engine = "18.141.160.148"
+ansible-node-1 = "18.143.67.190"
+ansible-node-2 = "52.221.188.81"
+ansible-node-3 = "52.221.188.81"
+
+[ansible]
+ansible-engine ansible_host=ip-172-31-22-254.ap-southeast-1.compute.internal ansible_connection=local
+[nodes]
+node1 ansible_host=ip-172-31-22-195.ap-southeast-1.compute.internal
+node2 ansible_host=ip-172-31-26-124.ap-southeast-1.compute.internal
+node3 ansible_host=ip-172-31-25-119.ap-southeast-1.compute.internal
+
+sudo subscription-manager config --rhsm.manage_repos=1
+
+sudo subscription-manager register --username=b14ckberry --password=P@ssw0rd
+
+sudo subscription-manager list --available #get {{Pool ID}} 
+
+#2c94760e887329bc018883f814e33414
+
+sudo subscription-manager attach --pool={{ Pool ID }}
+
+sudo subscription-manager repos --enable ansible-automation-platform-2.4-for-rhel-9-x86_64-rpms
+
+sudo dnf update
+
+sudo dnf install ansible-core ansible-navigator rhel-system-roles
+
+podman login registry.redhat.io --username=b14ckberry --password=P@ssw0rd
+
+ansible-inventory -i inventory --graph
